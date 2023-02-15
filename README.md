@@ -9,6 +9,8 @@ Each Batch and AI/ML sample will be based on an infrastructure pattern layed out
 
 In your working directory, replace the value of `YOUR_GCS_BUCKET_NAME` in `backend.tf` to a GCS bucket that you have created to host the state information from Terraform.
 
+Then do a terraform init, plan and apply flow to complete the infrastructure build process while providing the Project ID when Terraform asks for it.
+
 
 ## Contribution
 
