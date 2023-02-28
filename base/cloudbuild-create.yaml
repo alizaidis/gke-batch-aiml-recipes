@@ -44,5 +44,14 @@ steps:
         terraform init -backend-config="bucket=${PROJECT_ID}-tfstate"
         terraform plan -out terraform.tfplan
         terraform apply -input=false -lock=false terraform.tfplan
+  - name: "us-west1-docker.pkg.dev/${PROJECT_ID}/platform-installer/installer"
+    id: "install-kueue"
+    entrypoint: "ash"
+    args:
+      - "-xe"
+      - "-c"
+      - |
+        gcloud container clusters get-credentials gke-batch --region=us-central1 --project=${PROJECT_ID}
+        kubectl apply -f https://github.com/kubernetes-sigs/kueue/releases/download/v0.2.1/manifests.yaml        
 options:
   logging: CLOUD_LOGGING_ONLY
