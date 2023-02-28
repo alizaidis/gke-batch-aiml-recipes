@@ -28,8 +28,8 @@ data "google_project" "project" {
   project_id = var.project_id
 }
 
-resource "google_container_cluster" "gke_batch_auto" {
-  name                     = "gke-batch-auto"
+resource "google_container_cluster" "gke_batch" {
+  name                     = "gke-batch"
   project                  = var.project_id
   location                 = var.region
   enable_autopilot         = true
