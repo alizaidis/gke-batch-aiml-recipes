@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This tutorial provides patterns to setup batch processing platforms on [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) (GKE). The base folder contains the basic infrastructure required for all examples in this repository.
+This tutorial provides patterns to setup batch processing platforms on [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) (GKE). The `base` directory contains the basic infrastructure required for all examples in this repository.
 
 ## Prerequistes 
 
