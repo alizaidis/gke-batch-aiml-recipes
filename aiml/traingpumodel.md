@@ -1,1 +1,0 @@
-# Tutorial: Training an ML model with GPU on GKE

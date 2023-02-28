@@ -1,1 +1,0 @@
-# Tutorial: Indexed Job on GKE

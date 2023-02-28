@@ -1,1 +1,0 @@
-# Tutorial: CronJob on GKE

@@ -1,0 +1,48 @@
+# Copyright 2023 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+timeout: 3600s
+steps:
+  - name: "gcr.io/kaniko-project/executor:v1.9.1-slim"
+    id: "build-installer-image"
+    args:
+      - --destination=us-west1-docker.pkg.dev/${PROJECT_ID}/platform-installer/installer
+      - --cache=true
+      - --cache-ttl=12h
+  - name: "gcr.io/cloud-builders/gcloud"
+    id: "gcs"
+    waitFor: ["-"]
+    entrypoint: "bash"
+    args:
+      - "-xe"
+      - "-c"
+      - |
+        [[ $(gsutil ls | grep "gs://${PROJECT_ID}-tfstate/") ]] || \
+        gsutil mb -p ${PROJECT_ID} gs://${PROJECT_ID}-tfstate && \
+        [[ $(gsutil versioning get gs://${PROJECT_ID}-tfstate | grep Enabled) ]] || \
+        gsutil versioning set on gs://${PROJECT_ID}-tfstate
+  - name: "us-west1-docker.pkg.dev/${PROJECT_ID}/platform-installer/installer"
+    id: "gke"
+    dir: "gke"
+    entrypoint: "ash"
+    args:
+      - "-xe"
+      - "-c"
+      - |
+        echo "project_id = \"${PROJECT_ID}\"" > terraform.tfvars
+        terraform init -backend-config="bucket=${PROJECT_ID}-tfstate"
+        terraform plan -out terraform.tfplan
+        terraform apply -input=false -lock=false terraform.tfplan
+options:
+  logging: CLOUD_LOGGING_ONLY
