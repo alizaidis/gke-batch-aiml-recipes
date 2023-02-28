@@ -16,7 +16,7 @@ This tutorial provides patterns to setup batch processing platforms on [Google K
 
     ```bash
     mkdir ~/gke-tutorial && cd ~/gke-tutorial && export WORKDIR=$(pwd)
-    gcloud source repos clone terraform-sandbox --project=zaidiali-src
+    git clone https://github.com/alizaidis/gke-batch-aiml-recipes.git
     cd gke-batch-aiml/base
     ```
 
