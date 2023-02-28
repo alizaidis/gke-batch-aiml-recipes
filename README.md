@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This tutorial provides patterns to setup batch processing platforms on [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) (GKE). The Base folder contains the basic infrastructure required for all examples in this repository.
+This tutorial provides patterns to setup batch processing platforms on [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) (GKE). The base folder contains the basic infrastructure required for all examples in this repository.
 
 ## Prerequistes 
 
@@ -40,7 +40,6 @@ This tutorial provides patterns to setup batch processing platforms on [Google K
 
    ```bash
     gcloud builds submit \
-     --region=us-west1 \
      --config cloudbuild-destroy.yaml \
      --async
     rm -rf $WORKDIR
