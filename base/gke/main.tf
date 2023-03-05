@@ -12,6 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+# Reservation to be consumed in GKE cluster
+
+resource "google_compute_reservation" "zonal_reservation" {
+  project = var.project_id
+  specific_reservation_required = true
+  name = "${var.zone}-reservation"
+  zone = var.zone
+
+  specific_reservation {
+    count = var.reservation_count
+    instance_properties {
+      min_cpu_platform = "Intel Cascade Lake"
+      machine_type     = "n2-standard-4"
+    }
+  }
+}
+
+
 # google_client_config and kubernetes provider must be explicitly specified like the following for every cluster.
 
 ## GKE cluster
@@ -28,6 +47,7 @@ data "google_project" "project" {
   project_id = var.project_id
 }
 
+
 resource "google_container_cluster" "gke_batch" {
   name                     = "gke-batch"
   project                  = var.project_id
@@ -36,6 +56,34 @@ resource "google_container_cluster" "gke_batch" {
   initial_node_count       = 1
 }
 
+
+resource "google_container_node_pool" "reserved_np" {
+  project    = var.project_id
+  name       = "reserved-np"
+  cluster    = resource.google_container_cluster.gke_batch.name
+  node_count = var.reservation_count
+  node_locations = ["${var.zone}"]
+  location   = var.region
+  node_config {
+    machine_type = "n2-standard-4"
+    reservation_affinity {
+      consume_reservation_type = "SPECIFIC_RESERVATION"
+      key = "compute.googleapis.com/reservation-name"
+      values = ["${var.zone}-reservation"]
+    }
+    labels = {
+      spot = false
+    }
+    oauth_scopes    = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+
+  timeouts {
+    create = "30m"
+    update = "20m"
+  }
+}
 
 resource "google_container_node_pool" "ondemand_np" {
   project    = var.project_id
@@ -52,8 +100,8 @@ resource "google_container_node_pool" "ondemand_np" {
     ]
   }
   autoscaling {
-      min_node_count = 1
-      max_node_count = 3
+      min_node_count = 0
+      max_node_count = 5
       location_policy = "ANY"
   }
   timeouts {

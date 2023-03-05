@@ -14,7 +14,7 @@
 
 variable "project_id" {
   type        = string
-  description = "The GCP project where the GKE cluster will be created"
+  description = "The GCP project where the resources will be created"
 }
 
 variable "region" {
@@ -22,4 +22,17 @@ variable "region" {
   description = "The GCP region where the GKE cluster will be created"
   default = "us-central1"
 }
+
+variable "zone" {
+  type        = string
+  description = "The GCP zone where the reservation will be created"
+  default = "us-central1-c"
+}
+
+variable "reservation_count" {
+  type        = number
+  description = "Number of reserved instances"
+  default = 5
+}
+
 
