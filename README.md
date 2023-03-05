@@ -17,7 +17,7 @@ This tutorial provides patterns to setup batch processing platforms on [Google K
     ```bash
     mkdir ~/gke-tutorial && cd ~/gke-tutorial && export WORKDIR=$(pwd)
     git clone https://github.com/alizaidis/gke-batch-aiml-recipes.git
-    cd gke-batch-aiml/base
+    cd gke-batch-aiml-recipes/base
     ```
 
 1. Export the `PROJECT_ID` environment variable; replace the value of `YOUR_PROJECT_ID` with that of a fresh project you created for this tutorial. The rest of this step enables the required APIs, creates an IAM policy binding for the Cloud Build service account, creates an Artifact Registry to host the Cloud Build container images and submit a Cloud Build job to create the required Google Cloud resources. For more details see `build.sh` in the `base` directory.
