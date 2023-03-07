@@ -12,7 +12,7 @@ This tutorial provides patterns to setup batch processing platforms on [Google K
 
 ## Deploy resources using Terraform.
 
-1. Create a working directory, clone this repo and switch to the appropriate branch.
+1. Create a working directory, clone this repo and switch to the appropriate subdirectory.
 
     ```bash
     mkdir ~/gke-tutorial && cd ~/gke-tutorial && export WORKDIR=$(pwd)
@@ -40,7 +40,6 @@ This tutorial provides patterns to setup batch processing platforms on [Google K
 
    ```bash
     gcloud builds submit \
-     --region=us-west1 \
      --config cloudbuild-destroy.yaml \
      --async
     rm -rf $WORKDIR
