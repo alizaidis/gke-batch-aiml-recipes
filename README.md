@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This tutorial provides patterns to setup batch processing platforms on [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) (GKE). The `base` directory contains the basic infrastructure required for all examples in this repository.
+This tutorial provides patterns to setup batch processing platforms on [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine/docs/concepts/kubernetes-engine-overview) (GKE). The `base` directory contains the basic infrastructure pattern for the examples in the `examples` directory.
 
 ## Prerequistes 
 
@@ -12,7 +12,7 @@ This tutorial provides patterns to setup batch processing platforms on [Google K
 
 ## Deploy resources using Terraform.
 
-1. Create a working directory, clone this repo and switch to the appropriate branch.
+1. Create a working directory, clone this repo and switch to the appropriate subdirectory.
 
     ```bash
     mkdir ~/gke-tutorial && cd ~/gke-tutorial && export WORKDIR=$(pwd)

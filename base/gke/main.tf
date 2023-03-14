@@ -29,10 +29,24 @@ data "google_project" "project" {
 }
 
 resource "google_container_cluster" "gke_batch" {
+  provider                 = google-beta
   name                     = "gke-batch"
   project                  = var.project_id
   location                 = var.region
   enable_autopilot         = true
+  cluster_autoscaling {
+    auto_provisioning_defaults {
+      min_cpu_platform = "Intel Cascade Lake"
+      oauth_scopes     = [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
+  }
+  node_pool_auto_config {
+    network_tags {
+      tags = ["gke-batch", "autopilot"]
+    }
+  }
   ip_allocation_policy {
     cluster_ipv4_cidr_block  = ""
     services_ipv4_cidr_block = ""
